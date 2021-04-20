@@ -1,10 +1,3 @@
-//
-//  CallCell.swift
-//  RecentCalls
-//
-//  Created by Daniela Palova on 16.04.21.
-//
-
 import UIKit
 
 class CallCell: UITableViewCell {
@@ -14,22 +7,44 @@ class CallCell: UITableViewCell {
     @IBOutlet var typeCallLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     
-    private func formateDate(call: Call) -> String {
+    let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US")
         dateFormatter.dateFormat = "yyyy.MM.dd HH:mm"
-        dateFormatter.dateStyle = .full
+        return dateFormatter
+    }()
+    
+    let timeDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
+        return dateFormatter
+    }()
+    
+    let mediumDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        return dateFormatter
+    }()
+    
+    let fullDateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .full
+        return dateFormatter
+    }()
+    
+    private func formateDate(call: Call) -> String {
+        guard let date = dateFormatter.date(from: call.date) else {
+            return dateFormatter.string(from: Date())
+        }
         
-        let dateString = dateFormatter.string(from: call.date)
-        if Date(timeIntervalSinceNow: -60*60*24*7) < call.date {
-            return String(dateString.prefix { $0 != "," })
-        } else {
-            var firstIdx = dateString.firstIndex(of: ",")!
-            var lastIdx = dateString.lastIndex(of: "a")!
-            firstIdx = dateString.index(firstIdx, offsetBy: 2)
-            lastIdx = dateString.index(lastIdx,offsetBy: -2)
-            return String(dateString[firstIdx...lastIdx])
+        let nameDayOfWeek = String(fullDateFormatter.string(from: date).prefix { $0 != "," })
+        let nameOfToday = String(fullDateFormatter.string(from: Date()).prefix { $0 != "," })
+
+        if nameDayOfWeek == nameOfToday {
+            return timeDateFormatter.string(from: date)
+        } else if Date(timeIntervalSinceNow: -60 * 60 * 24 * 7) < date {
+            return nameDayOfWeek
+        } else { 
+            return mediumDateFormatter.string(from: date)
         }
     }
     
@@ -39,9 +54,10 @@ class CallCell: UITableViewCell {
         
         let num = call.numCalls
         numberMissedCallsLabel.text = num > 1 ? "(\(num))" : ""
+        numberMissedCallsLabel.textColor = call.isMissed ? .red : .black
         
         typeCallLabel.text = call.type.rawValue
         dateLabel.text = formateDate(call: call)
-        isMissedIcon.isHidden = !call.isOutgoing
+        isMissedIcon.isHidden = !call.isOutcome
     }
 }

@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  Contacts
-//
-//  Created by Daniela Palova on 9.04.21.
-//
-
 import UIKit
 
 class ContactsViewController: UITableViewController {
@@ -19,7 +12,7 @@ class ContactsViewController: UITableViewController {
         navigationItem.searchController = UISearchController()
         navigationItem.hidesSearchBarWhenScrolling = false
     }
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return contactItems.rowsInSection(section)
     }
@@ -27,7 +20,7 @@ class ContactsViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ContactItem", for: indexPath)
         let item = contactItems.contacts[indexPath.section][indexPath.row]
-        cell.textLabel?.text = item
+        cell.textLabel?.text = item.name
         return cell
     }
     
