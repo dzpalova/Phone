@@ -25,7 +25,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="370" height="80"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y68-8C-ydZ">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y68-8C-ydZ">
                                             <rect key="frame" x="40" y="11" width="54" height="29"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
                                             <nil key="textColor"/>
@@ -62,11 +62,13 @@
                                         <constraint firstItem="MOU-s2-7wM" firstAttribute="top" secondItem="k9i-Tk-ECy" secondAttribute="centerY" id="14z-dR-igQ"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="MOU-s2-7wM" secondAttribute="bottom" id="4dv-fU-n66"/>
                                         <constraint firstItem="Y68-8C-ydZ" firstAttribute="leading" secondItem="k9i-Tk-ECy" secondAttribute="leading" constant="40" id="6FL-sq-ElE"/>
+                                        <constraint firstItem="cWd-oy-Pee" firstAttribute="leading" relation="lessThanOrEqual" secondItem="MOU-s2-7wM" secondAttribute="trailing" constant="288" id="8Sh-hL-ePe"/>
                                         <constraint firstItem="Y68-8C-ydZ" firstAttribute="leading" secondItem="MOU-s2-7wM" secondAttribute="leading" id="G4x-PM-xrW"/>
                                         <constraint firstItem="Y68-8C-ydZ" firstAttribute="bottom" secondItem="XNq-lf-S4b" secondAttribute="bottom" id="HaA-FU-6bX"/>
                                         <constraint firstItem="cWd-oy-Pee" firstAttribute="centerY" secondItem="k9i-Tk-ECy" secondAttribute="centerY" id="IX8-kV-sTf"/>
                                         <constraint firstAttribute="centerY" secondItem="Y68-8C-ydZ" secondAttribute="bottom" id="JLI-n4-RVl"/>
                                         <constraint firstItem="Y68-8C-ydZ" firstAttribute="leading" secondItem="u2s-ia-vH2" secondAttribute="trailing" constant="5" id="RLG-Gy-xqo"/>
+                                        <constraint firstItem="cWd-oy-Pee" firstAttribute="leading" relation="lessThanOrEqual" secondItem="XNq-lf-S4b" secondAttribute="trailing" constant="217" id="Zrb-ph-gCb"/>
                                         <constraint firstItem="XNq-lf-S4b" firstAttribute="top" secondItem="Y68-8C-ydZ" secondAttribute="top" id="bVx-6u-Dka"/>
                                         <constraint firstItem="XNq-lf-S4b" firstAttribute="leading" secondItem="Y68-8C-ydZ" secondAttribute="trailing" constant="5" id="chj-ka-V7P"/>
                                         <constraint firstItem="Y68-8C-ydZ" firstAttribute="top" secondItem="k9i-Tk-ECy" secondAttribute="topMargin" id="ctl-qU-KcB"/>
@@ -107,11 +109,7 @@
                                 <action selector="changeSegmentedControlValue:" destination="6CJ-tJ-jQs" eventType="valueChanged" id="8sN-nO-Hvy"/>
                             </connections>
                         </segmentedControl>
-                        <barButtonItem key="rightBarButtonItem" title="Edit" id="gJw-sF-4yZ">
-                            <connections>
-                                <action selector="editPressed:" destination="6CJ-tJ-jQs" id="Dex-L1-7lj"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="gJw-sF-4yZ"/>
                     </navigationItem>
                     <connections>
                         <outlet property="clearAllButton" destination="LKc-5i-FMz" id="pON-AQ-85e"/>
@@ -190,7 +188,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="DfE-Mh-qxd">
-                                    <rect key="frame" x="15" y="15.5" width="80" height="73"/>
+                                    <rect key="frame" x="15" y="12.5" width="80" height="79"/>
                                     <color key="tintColor" red="0.5220565025252526" green="0.5220565025252526" blue="0.5220565025252526" alpha="0.96590438741721851" colorSpace="custom" customColorSpace="sRGB"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="80" id="oJy-bK-e1b"/>
@@ -210,7 +208,7 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DP" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KoK-7p-f99">
-                                    <rect key="frame" x="15" y="15" width="80" height="74"/>
+                                    <rect key="frame" x="15" y="12" width="80" height="80"/>
                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
@@ -221,14 +219,15 @@
                                 <constraint firstItem="71f-f1-W8w" firstAttribute="firstBaseline" secondItem="DfE-Mh-qxd" secondAttribute="centerY" id="1Wd-IL-H5R"/>
                                 <constraint firstItem="71f-f1-W8w" firstAttribute="leading" secondItem="DfE-Mh-qxd" secondAttribute="trailing" constant="5" id="55Y-CF-iXe"/>
                                 <constraint firstItem="KoK-7p-f99" firstAttribute="top" secondItem="DfE-Mh-qxd" secondAttribute="top" id="DlQ-lG-cTZ"/>
+                                <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="kkX-oo-ZWd" secondAttribute="trailing" constant="263" id="DoT-13-gOF"/>
                                 <constraint firstItem="KoK-7p-f99" firstAttribute="leading" secondItem="DfE-Mh-qxd" secondAttribute="leading" id="Z1a-mJ-hfo"/>
                                 <constraint firstItem="KoK-7p-f99" firstAttribute="trailing" secondItem="DfE-Mh-qxd" secondAttribute="trailing" id="ZqT-6t-41F"/>
                                 <constraint firstItem="DfE-Mh-qxd" firstAttribute="leading" secondItem="Dq2-zs-XWg" secondAttribute="leading" constant="15" id="dcx-wV-uO3"/>
                                 <constraint firstItem="kkX-oo-ZWd" firstAttribute="top" secondItem="71f-f1-W8w" secondAttribute="bottom" constant="5" id="iVj-5x-gnP"/>
                                 <constraint firstItem="KoK-7p-f99" firstAttribute="bottom" secondItem="DfE-Mh-qxd" secondAttribute="bottom" id="nn3-l3-Wg8"/>
-                                <constraint firstItem="DfE-Mh-qxd" firstAttribute="top" secondItem="Dq2-zs-XWg" secondAttribute="top" constant="15" id="odO-pu-lWf"/>
+                                <constraint firstItem="DfE-Mh-qxd" firstAttribute="centerY" secondItem="Dq2-zs-XWg" secondAttribute="centerY" id="saW-3K-LNv"/>
                                 <constraint firstItem="71f-f1-W8w" firstAttribute="leading" secondItem="kkX-oo-ZWd" secondAttribute="leading" id="tnq-3D-vxS"/>
-                                <constraint firstAttribute="bottom" secondItem="DfE-Mh-qxd" secondAttribute="bottom" constant="15" id="ye0-Hh-Go5"/>
+                                <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="71f-f1-W8w" secondAttribute="trailing" constant="171.5" id="vPP-It-L0O"/>
                             </constraints>
                         </view>
                         <prototypes>

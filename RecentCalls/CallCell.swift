@@ -7,12 +7,6 @@ class CallCell: UITableViewCell {
     @IBOutlet var typeCallLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     
-    let dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd HH:mm"
-        return dateFormatter
-    }()
-    
     let timeDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
@@ -27,21 +21,20 @@ class CallCell: UITableViewCell {
     
     let fullDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .full
+        dateFormatter.dateFormat = "EEEE"
         return dateFormatter
     }()
     
+    let oneWeekTime: Double = -60 * 60 * 24 * 7
+    
     private func formateDate(call: Call) -> String {
-        guard let date = dateFormatter.date(from: call.date) else {
-            return dateFormatter.string(from: Date())
-        }
+        let date = call.date
+        let nameDayOfWeek = fullDateFormatter.string(from: date)
+        let nameOfToday = fullDateFormatter.string(from: Date())
         
-        let nameDayOfWeek = String(fullDateFormatter.string(from: date).prefix { $0 != "," })
-        let nameOfToday = String(fullDateFormatter.string(from: Date()).prefix { $0 != "," })
-
         if nameDayOfWeek == nameOfToday {
             return timeDateFormatter.string(from: date)
-        } else if Date(timeIntervalSinceNow: -60 * 60 * 24 * 7) < date {
+        } else if Date(timeIntervalSinceNow: oneWeekTime) < date {
             return nameDayOfWeek
         } else { 
             return mediumDateFormatter.string(from: date)

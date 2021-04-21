@@ -20,8 +20,6 @@
 		CE6483A0262DD26C00FC8653 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE64839F262DD26C00FC8653 /* ContactsViewController.swift */; };
 		CE6483A8262DD28F00FC8653 /* ContactsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6483A7262DD28F00FC8653 /* ContactsStore.swift */; };
 		CE6483AD262EEE6600FC8653 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = CE6483AC262EEE6600FC8653 /* .gitignore */; };
-		CEADE6BE262EFE4B0021B4F9 /* calls.json in Resources */ = {isa = PBXBuildFile; fileRef = CEADE6BD262EFE4B0021B4F9 /* calls.json */; };
-		CEADE6C6262F21F30021B4F9 /* contacts.json in Resources */ = {isa = PBXBuildFile; fileRef = CEADE6C5262F21F30021B4F9 /* contacts.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,8 +59,6 @@
 		CE64839F262DD26C00FC8653 /* ContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		CE6483A7262DD28F00FC8653 /* ContactsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsStore.swift; sourceTree = "<group>"; };
 		CE6483AC262EEE6600FC8653 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		CEADE6BD262EFE4B0021B4F9 /* calls.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = calls.json; sourceTree = "<group>"; };
-		CEADE6C5262F21F30021B4F9 /* contacts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = contacts.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,8 +121,6 @@
 				CE5A8B152629AF7E001BC422 /* CallStore.swift */,
 				CE5A8B1A2629B618001BC422 /* CallCell.swift */,
 				CE6483A7262DD28F00FC8653 /* ContactsStore.swift */,
-				CEADE6BD262EFE4B0021B4F9 /* calls.json */,
-				CEADE6C5262F21F30021B4F9 /* contacts.json */,
 			);
 			path = RecentCalls;
 			sourceTree = "<group>";
@@ -253,10 +247,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE6483AD262EEE6600FC8653 /* .gitignore in Resources */,
-				CEADE6BE262EFE4B0021B4F9 /* calls.json in Resources */,
 				CE5A8AE72629A8B4001BC422 /* LaunchScreen.storyboard in Resources */,
 				CE5A8AE42629A8B4001BC422 /* Assets.xcassets in Resources */,
-				CEADE6C6262F21F30021B4F9 /* contacts.json in Resources */,
 				CE5A8AE22629A8AC001BC422 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

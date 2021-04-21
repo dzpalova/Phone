@@ -9,7 +9,7 @@ enum TypeCall: String, Codable {
 class Call: Codable {
     var contactName: String
     var type: TypeCall
-    var date: String
+    var date: Date
     var numCalls: Int
     var isMissed: Bool
     var isOutcome: Bool
@@ -23,7 +23,7 @@ class Call: Codable {
         case isOutcome
     }
     
-    init(contactName: String, numCalls: Int, type: TypeCall, date: String,
+    init(contactName: String, numCalls: Int, type: TypeCall, date: Date,
          isMissed: Bool, isOutgoing: Bool) {
         self.contactName = contactName
         self.numCalls = numCalls
@@ -34,19 +34,32 @@ class Call: Codable {
     }
 }
 
+let dateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy.MM.dd HH:mm"
+    return dateFormatter
+}()
+
 class CallStore {
     var allCalls: [Call]
     var missedCalls: [Call] {
         return allCalls.filter { $0.isMissed }
     }
-
+    
+    let callArchiveURL: URL = {
+        let documentsDirectories = FileManager.default.urls(for: .documentDirectory,
+                                                                in: .userDomainMask)
+        let documentDirectory = documentsDirectories.first!
+        return documentDirectory.appendingPathComponent("calls.json")
+    }()
+    
     init() {
         allCalls = [Call]()
         do {
-            if let path = Bundle.main.url(forResource: "calls", withExtension: "json") {
-                let jsonData = try Data(contentsOf: path)
-                allCalls = try JSONDecoder().decode([Call].self, from: jsonData)
-            }
+            let jsonData = try Data(contentsOf: callArchiveURL)
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .formatted(dateFormatter)
+            allCalls = try decoder.decode([Call].self, from: jsonData)
         } catch {
             print("Error decoding allItems: \(error)")
         }

@@ -35,42 +35,26 @@ class ContactItems {
         }
     }
     
+    let callArchiveURL: URL = {
+        let documentsDirectories = FileManager.default.urls(for: .documentDirectory,
+                                                                in: .userDomainMask)
+        let documentDirectory = documentsDirectories.first!
+        return documentDirectory.appendingPathComponent("contacts.json")
+    }()
+    
     init() {
         contacts = [[Contact]]()
         do {
-            if let path = Bundle.main.url(forResource: "contacts", withExtension: "json") {
-                let jsonData = try Data(contentsOf: path)
-                let data = try JSONDecoder().decode([Contact].self, from: jsonData)
-                parseData(data)
-            }
+            let jsonData = try Data(contentsOf: callArchiveURL)
+            let data = try JSONDecoder().decode([Contact].self, from: jsonData)
+            parseData(data)
         } catch {
             print("Error decoding contacts: \(error)")
         }
     }
     
-    @discardableResult func createContact() -> String {
-        let name = ["Ani", "Yavor", "Asya", "Aleks", "Eva", "Albena", "Katya", "Bobi", "Stefani", "Kalina", "Vaya", "Viktor", "Vanesa", "Ceco", "Dafi", "Deni", "Angel", "Albena", "Bilqn", "Dori"].randomElement()!
-        let firstLetter = name.first!
-
-        if existingSections.contains(firstLetter) {
-            var idxSection = 0
-            for i in 0 ..< contacts.count {
-                if contacts[i].first!.name.first! == firstLetter {
-                    idxSection = i
-                    break
-                }
-            }
-                    
-            contacts[idxSection].append(Contact(name: name))
-            contacts[idxSection].sort { $0.name < $1.name }
-        } else {
-            existingSections.insert(firstLetter)
-            contacts.append([Contact(name: name)])
-            if contacts.count > 2 {
-                contacts.sort { $0.first!.name < $1.first!.name }
-            }
-        }
-        return name
+    func getContact(_ indexPath: IndexPath) -> Contact {
+        return contacts[indexPath.section][indexPath.row]
     }
     
     func rowsInSection(_ section: Int) -> Int {

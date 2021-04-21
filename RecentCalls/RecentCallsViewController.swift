@@ -16,20 +16,23 @@ class RecentCallsTableController: UITableViewController {
             tableView.reloadData()
         }
     }
-    
-    @IBAction func editPressed(_ sender: UIBarButtonItem) {
-        clearAllButton.title = isEditing ? "" : "Clear"
-        navigationItem.rightBarButtonItem?.title = isEditing ? "Edit" : "Done"
-        isEditing.toggle()
-    }
 
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        navigationItem.rightBarButtonItem = editButtonItem
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        editButtonItem.action = #selector(editPressed)
-        
         title = "Recents"
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        navigationItem.leftBarButtonItem?.title = editing ? "Clear" : ""
     }
     
     private func displayNoItemsLabel() {
@@ -64,15 +67,6 @@ class RecentCallsTableController: UITableViewController {
                 callStore.removeMissedCall(at: indexPath)
             }
             tableView.deleteRows(at: [indexPath], with: .automatic)
-        }
-    }
-    
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if tableView.contentOffset.y == -tableView.safeAreaInsets.top {
-            navigationController!.navigationBar.barTintColor = tableView.backgroundColor
-            navigationController!.navigationBar.shadowImage = UIImage()
-        } else {
-            navigationController!.navigationBar.barTintColor = UINavigationController().navigationBar.barTintColor
         }
     }
 }
