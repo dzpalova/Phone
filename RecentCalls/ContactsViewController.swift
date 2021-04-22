@@ -1,16 +1,51 @@
 import UIKit
+import Foundation
 
-class ContactsViewController: UITableViewController {
-    var contactItems = ContactItems()
+class ContactsViewController: UITableViewController, UISearchBarDelegate {
+    var allContactItems = ContactItems()
+    var contactItems: ContactItems!
     
     @IBOutlet var userCardView: UIView!
+    var searchBar: UISearchController!
     
     override func viewDidLoad() {
+        contactItems = allContactItems
+        
         title = "Contacts"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
-        navigationItem.searchController = UISearchController()
+        searchBar = UISearchController()
+        navigationItem.searchController = searchBar
+        searchBar.searchBar.delegate = self
         navigationItem.hidesSearchBarWhenScrolling = false
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            return
+        }
+
+        var filtered = [Contact]()
+        
+        for contact in allContactItems {
+            if contact.name.prefix(searchText.count).lowercased() == searchText.lowercased() {
+                filtered.append(contact)
+                print(contact)
+            }
+        }
+        
+        if filtered.count != 0 {
+            contactItems.clearAll()
+            contactItems.parseData(filtered)
+            tableView.reloadData()
+        } else {
+            contactItems = allContactItems
+        }
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        contactItems = allContactItems
+        tableView.reloadData()
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

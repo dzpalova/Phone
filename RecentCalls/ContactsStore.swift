@@ -5,11 +5,11 @@ struct Contact: Codable {
     let name: String
 }
 
-class ContactItems {
+struct ContactItems: Sequence {
     var contacts: [[Contact]]
     private var existingSections = Set<Character>()
-    
-    private func parseData(_ data: [Contact]) {
+        
+    mutating func parseData(_ data: [Contact]) {
         for cont in data {
             let name = cont.name
             let firstLetter = name.first!
@@ -22,7 +22,7 @@ class ContactItems {
                         break
                     }
                 }
-                        
+                
                 contacts[idxSection].append(Contact(name: name))
                 contacts[idxSection].sort { $0.name < $1.name }
             } else {
@@ -53,6 +53,24 @@ class ContactItems {
         }
     }
     
+    func makeIterator() -> AnyIterator<Contact> {
+        var innerIdx = 0
+        var outerIdx = 0
+        return AnyIterator<Contact> {
+            if innerIdx == self.contacts[outerIdx].count {
+                innerIdx = 0
+                outerIdx += 1
+                if outerIdx == self.contacts.count {
+                    outerIdx = 0
+                    innerIdx = 0
+                    return nil
+                }
+            }
+            defer { innerIdx += 1 }
+            return self.contacts[outerIdx][innerIdx]
+        }
+    }
+    
     func getContact(_ indexPath: IndexPath) -> Contact {
         return contacts[indexPath.section][indexPath.row]
     }
@@ -63,5 +81,10 @@ class ContactItems {
     
     func titleSection(_ section: Int) -> String? {
         return contacts[section].count != 0 ? String(contacts[section][0].name.first!) : nil
+    }
+    
+    mutating func clearAll() {
+        contacts = []
+        existingSections.removeAll()
     }
 }

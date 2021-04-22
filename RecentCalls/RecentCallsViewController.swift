@@ -20,7 +20,6 @@ class RecentCallsTableController: UITableViewController {
         let clearAllAction = UIAlertAction(title: "Clear All", style: .destructive) { _ in
             self.callStore.deleteAll()
             self.tableView.reloadData()
-            self.setEditing(false, animated: true)
         }
         alertController.addAction(clearAllAction)
                 
@@ -29,8 +28,6 @@ class RecentCallsTableController: UITableViewController {
                 
         present(alertController, animated: true, completion: nil)
     }
-    
-    
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
