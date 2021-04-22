@@ -11,11 +11,26 @@ class RecentCallsTableController: UITableViewController {
     }
     
     @IBAction func clearAllPressed(_ sender: UIBarButtonItem) {
-        if isEditing {
-            callStore.deleteAll()
-            tableView.reloadData()
+        if !isEditing {
+            return
         }
+
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+                
+        let clearAllAction = UIAlertAction(title: "Clear All", style: .destructive) { _ in
+            self.callStore.deleteAll()
+            self.tableView.reloadData()
+            self.setEditing(false, animated: true)
+        }
+        alertController.addAction(clearAllAction)
+                
+        let cancelAction = UIAlertAction(title: "Don't clear", style: .cancel, handler: nil)
+        alertController.addAction(cancelAction)
+                
+        present(alertController, animated: true, completion: nil)
     }
+    
+    
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
