@@ -34,17 +34,17 @@ class Call: Codable {
     }
 }
 
-let dateFormatter: DateFormatter = {
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy.MM.dd HH:mm"
-    return dateFormatter
-}()
-
 class CallStore {
     var allCalls: [Call]
     var missedCalls: [Call] {
         return allCalls.filter { $0.isMissed }
     }
+    
+    let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd HH:mm"
+        return dateFormatter
+    }()
     
     let callArchiveURL: URL = {
         let documentsDirectories = FileManager.default.urls(for: .documentDirectory,

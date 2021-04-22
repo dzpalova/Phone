@@ -28,16 +28,14 @@ class CallCell: UITableViewCell {
     let oneWeekTime: Double = -60 * 60 * 24 * 7
     
     private func formateDate(call: Call) -> String {
-        let date = call.date
-        let nameDayOfWeek = fullDateFormatter.string(from: date)
-        let nameOfToday = fullDateFormatter.string(from: Date())
-        
-        if nameDayOfWeek == nameOfToday {
-            return timeDateFormatter.string(from: date)
-        } else if Date(timeIntervalSinceNow: oneWeekTime) < date {
-            return nameDayOfWeek
+        if Calendar.current.isDateInToday(call.date) {
+            return timeDateFormatter.string(from: call.date)
+        } else if Calendar.current.isDateInYesterday(call.date) {
+            return "Yesterday"
+        } else if Date(timeIntervalSinceNow: oneWeekTime) < call.date {
+            return fullDateFormatter.string(from: call.date)
         } else { 
-            return mediumDateFormatter.string(from: date)
+            return mediumDateFormatter.string(from: call.date)
         }
     }
     

@@ -31,7 +31,6 @@ class RecentCallsTableController: UITableViewController {
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        
         navigationItem.leftBarButtonItem?.title = editing ? "Clear" : ""
     }
     
