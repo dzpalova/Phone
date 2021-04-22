@@ -26,7 +26,7 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate {
         }
 
         var filtered = [Contact]()
-        
+        print(searchText)
         for contact in allContactItems {
             if contact.name.prefix(searchText.count).lowercased() == searchText.lowercased() {
                 filtered.append(contact)
@@ -37,10 +37,10 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate {
         if filtered.count != 0 {
             contactItems.clearAll()
             contactItems.parseData(filtered)
-            tableView.reloadData()
         } else {
             contactItems = allContactItems
         }
+        tableView.reloadData()
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
