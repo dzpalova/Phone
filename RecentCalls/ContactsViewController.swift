@@ -22,15 +22,13 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate {
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if searchText.isEmpty {
-            return
+            tableView.reloadData()
         }
 
         var filtered = [Contact]()
-        print(searchText)
         for contact in allContactItems {
             if contact.name.prefix(searchText.count).lowercased() == searchText.lowercased() {
                 filtered.append(contact)
-                print(contact)
             }
         }
         
