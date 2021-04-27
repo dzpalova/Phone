@@ -64,5 +64,14 @@ class ContactsViewController: UITableViewController, UISearchBarDelegate {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return contactItems.contacts.count
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if segue.identifier == "startConversationFromContacts" {
+            let conversationViewController = segue.destination as! ConversationViewController
+            conversationViewController.modalPresentationStyle = .overFullScreen
+            conversationViewController.number = contactItems.getContact( tableView.indexPathForSelectedRow!).name
+        }
+    }
 }
 

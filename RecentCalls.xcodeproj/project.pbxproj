@@ -21,6 +21,7 @@
 		CE6483A8262DD28F00FC8653 /* ContactsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6483A7262DD28F00FC8653 /* ContactsStore.swift */; };
 		CE6483AD262EEE6600FC8653 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = CE6483AC262EEE6600FC8653 /* .gitignore */; };
 		CEADE7762632E3EA0021B4F9 /* KeypadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEADE7752632E3EA0021B4F9 /* KeypadViewController.swift */; };
+		CEADE78C263701450021B4F9 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEADE78B263701440021B4F9 /* ConversationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		CE6483A7262DD28F00FC8653 /* ContactsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContactsStore.swift; sourceTree = "<group>"; };
 		CE6483AC262EEE6600FC8653 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		CEADE7752632E3EA0021B4F9 /* KeypadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeypadViewController.swift; sourceTree = "<group>"; };
+		CEADE78B263701440021B4F9 /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,9 +117,10 @@
 				CE5A8ADA2629A8AC001BC422 /* AppDelegate.swift */,
 				CE5A8ADC2629A8AC001BC422 /* SceneDelegate.swift */,
 				CE5A8ADE2629A8AC001BC422 /* RecentCallsViewController.swift */,
-				CEADE7752632E3EA0021B4F9 /* KeypadViewController.swift */,
-				CE5A8AE02629A8AC001BC422 /* Main.storyboard */,
 				CE64839F262DD26C00FC8653 /* ContactsViewController.swift */,
+				CEADE7752632E3EA0021B4F9 /* KeypadViewController.swift */,
+				CEADE78B263701440021B4F9 /* ConversationViewController.swift */,
+				CE5A8AE02629A8AC001BC422 /* Main.storyboard */,
 				CE5A8AE32629A8B4001BC422 /* Assets.xcassets */,
 				CE5A8AE52629A8B4001BC422 /* LaunchScreen.storyboard */,
 				CE5A8AE82629A8B4001BC422 /* Info.plist */,
@@ -208,6 +211,9 @@
 		CE5A8ACF2629A8AC001BC422 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				KnownAssetTags = (
+					New,
+				);
 				LastSwiftUpdateCheck = 1240;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
@@ -279,6 +285,7 @@
 			files = (
 				CE6483A0262DD26C00FC8653 /* ContactsViewController.swift in Sources */,
 				CE5A8ADF2629A8AC001BC422 /* RecentCallsViewController.swift in Sources */,
+				CEADE78C263701450021B4F9 /* ConversationViewController.swift in Sources */,
 				CEADE7762632E3EA0021B4F9 /* KeypadViewController.swift in Sources */,
 				CE5A8ADB2629A8AC001BC422 /* AppDelegate.swift in Sources */,
 				CE5A8ADD2629A8AC001BC422 /* SceneDelegate.swift in Sources */,

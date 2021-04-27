@@ -1,10 +1,4 @@
 //
-//  KeypadViewController.swift
-//  RecentCalls
-//
-//  Created by Daniela Palova on 23.04.21.
-//
-
 import UIKit
 
 extension UIColor {
@@ -32,204 +26,130 @@ extension UIColor {
 }
 
 class KeypadViewController: UIViewController {
-    private var numberLabel: UILabel!
-    private var callButton: UIButton!
-    private var addNewContactButton: UIButton!
-    private var deleteButton: UIButton!
+    @IBOutlet private var numberLabel: UILabel!
+    @IBOutlet private var addNumberButton: UIButton!
+    @IBOutlet private var callButton: UIButton!
+    @IBOutlet private var deleteButton: UIButton!
+    @IBOutlet var buttons: [UIButton]!
     
-    private var buttons = [String: UIButton]()
+    private var addNewContactButton: UIButton!
+    private var backgrountButtonViews: [String: UIView] = [:]
+    private let charsUnderNum: [String:String] = [
+        "0": "+"   , "1": "" ,
+        "2": "ABC" , "3": "DEF" ,
+        "4": "GHI" , "5": "JKL" ,
+        "6": "MNO" , "7": "PQRS",
+        "8": "TUV" , "9": "WXYZ"
+    ]
     
     private let customGreenColor = UIColor(hex: "#00CD46")
     private let customGrayColor = UIColor(hex: "#E0E0E0")
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        createKeypad()
+        buttons.forEach {
+            if charsUnderNum.keys.contains($0.titleLabel!.text!) {
+                createbackgroundButtonView($0)
+            } else {
+                makeButtonRounded($0)
+                $0.backgroundColor = customGrayColor
+            }
+            $0.addTarget(self, action: #selector(pressedNumber), for: .touchUpInside)
+        }
+        deleteButton.addTarget(self, action: #selector(pressedBack), for: .touchUpInside)
+        makeButtonRounded(callButton)
+    }
+    
+    private func makeViewRounded(_ view: UIView) {
+        view.layer.cornerRadius = 0.5 * view.frame.width
+        view.clipsToBounds = true
     }
     
     private func makeButtonRounded(_ button: UIButton) {
         button.layer.cornerRadius = 0.5 * button.frame.height
-        button.layer.borderWidth = button.frame.height * 0.1
         button.clipsToBounds = true
-        button.layer.borderColor = view.backgroundColor?.cgColor
-    }
-    private func makeViewRounded(_ view: UIView) {
-        view.layer.cornerRadius = 0.5 * view.frame.height
-        view.layer.borderWidth = view.frame.height * 0.1
-        view.clipsToBounds = true
-        view.layer.borderColor = view.backgroundColor?.cgColor
     }
     
-    @discardableResult func createNumButton(_ rect: CGRect, _ numText: String, _ charsText: String) -> UIButton {
-        let button = UIButton(frame: rect)
-        
-        button.backgroundColor = .clear
-        makeButtonRounded(button)
-        
-        button.setTitle(numText, for: .normal)
-        button.setTitleColor(.clear, for: .normal)
-        
-        let buttonLabelsView = UIView(frame: rect)
+    private func createLabel(_ rect: CGRect, _ text: String, _ size: CGFloat) -> UILabel {
+        let label = UILabel(frame: rect)
+        label.textAlignment = .center
+        label.backgroundColor = .clear
+        label.textColor = .black
+        label.text = text
+        label.font = UIFont(name: "Helvetica" , size: size)
+        return label
+    }
+    
+    private func createbackgroundButtonView(_ button: UIButton) {
+        let buttonLabelsView = UIView(frame: button.bounds)
         buttonLabelsView.backgroundColor = customGrayColor
         makeViewRounded(buttonLabelsView)
         
-        let labelNumFrame = CGRect(x: button.bounds.minX, y: button.bounds.minY + 2 / 9 * button.bounds.height,
-                                   width: button.bounds.width, height: 4/9 * button.bounds.height)
-        let labelNum = UILabel(frame: labelNumFrame)
-        labelNum.textAlignment = .center
-        labelNum.backgroundColor = .clear
-        labelNum.textColor = .black
-        labelNum.text = numText
-        labelNum.font = UIFont(name: "Helvetica" , size: 40)
+        let buttonNum = button.titleLabel!.text!
         
-        let labelCharsFrame = CGRect(x: button.bounds.minX, y: button.bounds.minY + 6 / 9 * button.bounds.height,
-                                     width: button.bounds.width, height: 1 / 9 * button.bounds.height)
-        let labelChars = UILabel(frame: labelCharsFrame)
-        labelChars.textAlignment = .center
-        labelChars.backgroundColor = .clear
-        labelChars.textColor = .black
-        labelChars.text = charsText
-        labelChars.font = UIFont(name: "Helvetica" , size: 10)
+        let labelNumFrame = CGRect(x: button.bounds.minX,
+                                   y: button.bounds.minY + 2 / 9 * button.bounds.width,
+                                   width: button.bounds.width,
+                                   height: 4 / 9 * button.bounds.width)
+        let labelCharsFrame = CGRect(x: button.bounds.minX ,
+                                     y: button.bounds.minY + 6 / 9 * button.bounds.width,
+                                     width: button.bounds.width,
+                                     height: 1 / 9 * button.bounds.width)
+        
+        let labelNum = createLabel(labelNumFrame, buttonNum, 40)
+        let labelChars = createLabel(labelCharsFrame, charsUnderNum[buttonNum]!, 10)
         
         buttonLabelsView.addSubview(labelChars)
         buttonLabelsView.addSubview(labelNum)
-
-        view.addSubview(buttonLabelsView)
-        view.addSubview(button)
-        button.addTarget(self, action: #selector(pressedNumber), for: .touchUpInside)
-        buttons[numText] = button
         
-        return button
-    }
-    
-    private func createKeypad() {
-        let offsetX: CGFloat = 40
-        let backgroundViewFrame = CGRect(x: view.frame.minX + offsetX, y: view.frame.minY + 20, width: view.frame.width - 2 * offsetX, height: view.frame.height - 100)
-        let backgroundView = UIView(frame: backgroundViewFrame)
+        button.addSubview(buttonLabelsView)
+        buttonLabelsView.isUserInteractionEnabled = false
         
-        numberLabel = UILabel()
-        numberLabel.text = ""
-        numberLabel.backgroundColor = .clear
-        numberLabel.textColor = .black
-        numberLabel.textAlignment = .center
-        numberLabel.font = UIFont(name: "Helvetica" , size: 70)
-        view.addSubview(numberLabel)
-        
-        let size: CGFloat = backgroundView.frame.width / 3
-
-        // row 1
-        var buttonY = backgroundViewFrame.height - size
-        var r = CGRect(x: offsetX, y: buttonY, width: size, height: size)
-        createNumButton(r, "", "").backgroundColor = view.backgroundColor
-        
-        r = CGRect(x: offsetX + size, y: buttonY, width: size, height: size)
-        callButton = UIButton(frame: r)
-        callButton.backgroundColor = customGreenColor
-        makeButtonRounded(callButton)
-        let phoneView = UIImageView(frame: CGRect(x: r.minX + 1 / 3 * r.width, y: r.minY + 1 / 3 * r.height, width: 1 / 3 * r.width, height: 1 / 3 * r.height))
-        phoneView.image = UIImage(systemName: "phone.fill")
-        phoneView.tintColor = .white
-        callButton.addTarget(self, action: #selector(pressedCallButton), for: .touchUpInside)
-        view.addSubview(callButton)
-        view.addSubview(phoneView)
-
-        r = CGRect(x: offsetX + size * 2, y: buttonY, width: size, height: size)
-        deleteButton = UIButton(frame: r)
-        deleteButton.backgroundColor = .clear
-        makeButtonRounded(deleteButton)
-        
-        let backButtonView = UIImageView(frame: CGRect(x: r.minX + 1 / 3 * r.width, y: r.minY + 1 / 3 * r.height, width: 1 / 3 * r.width, height: 1 / 3 * r.height))
-        backButtonView.image = UIImage(systemName: "delete.left.fill")
-        backButtonView.tintColor = customGrayColor
-        deleteButton.addTarget(self, action: #selector(pressedBack), for: .touchUpInside)
-        view.addSubview(backButtonView)
-        view.addSubview(deleteButton)
-        
-        
-        //row 2
-        buttonY -= size
-        r = CGRect(x: offsetX, y: buttonY, width: size, height: size)
-        let button1 = UIButton(frame: r)
-        button1.backgroundColor = customGrayColor
-        makeButtonRounded(button1)
-        button1.setTitle("*", for: .normal)
-        button1.titleLabel?.font = UIFont(name: "Helvetica" , size: 40)
-        button1.setTitleColor(.black, for: .normal)
-        button1.addTarget(self, action: #selector(pressedNumber), for: .touchUpInside)
-        buttons["*"] = button1
-        view.addSubview(button1)
-        
-        r = CGRect(x: offsetX + size, y: buttonY, width: size, height: size)
-        createNumButton(r, "0", "+")
-        r = CGRect(x: offsetX + size * 2, y: buttonY, width: size, height: size)
-        let button2 = UIButton(frame: r)
-        button2.backgroundColor = customGrayColor
-        makeButtonRounded(button2)
-        button2.setTitle("#", for: .normal)
-        button2.titleLabel?.font = UIFont(name: "Helvetica" , size: 40)
-        button2.setTitleColor(.black, for: .normal)
-        button2.addTarget(self, action: #selector(pressedNumber), for: .touchUpInside)
-        buttons["#"] = button2
-        view.addSubview(button2)
-        
-        //row 3
-        buttonY -= size
-        r = CGRect(x: offsetX, y: buttonY, width: size, height: size)
-        createNumButton(r, "7", "P Q R S")
-        r = CGRect(x: offsetX + size, y: buttonY, width: size, height: size)
-        createNumButton(r, "8", "T U V")
-        r = CGRect(x: offsetX + size * 2, y: buttonY, width: size, height: size)
-        createNumButton(r, "9", "W X Y Z")
-        
-        //row 4
-        buttonY -= size
-        r = CGRect(x: offsetX, y: buttonY, width: size, height: size)
-        createNumButton(r, "4", "G H I")
-        r = CGRect(x: offsetX + size, y: buttonY, width: size, height: size)
-        createNumButton(r, "5", "J K L")
-        r = CGRect(x: offsetX + size * 2, y: buttonY, width: size, height: size)
-        createNumButton(r, "6", "M N O")
-        
-        //row 5
-        buttonY -= size
-        r = CGRect(x: offsetX, y: buttonY, width: size, height: size)
-        createNumButton(r, "1", "")
-        r = CGRect(x: offsetX + size, y: buttonY, width: size, height: size)
-        createNumButton(r, "2", "A B C")
-        r = CGRect(x: offsetX + size * 2, y: buttonY, width: size, height: size)
-        createNumButton(r, "3", "D E F")
-        
-        numberLabel.frame = CGRect(x: backgroundView.frame.minX, y: backgroundView.frame.minY + 1/3 * buttonY,
-                                   width: backgroundView.frame.width, height: 1 / 3 * buttonY)
-        
-        let addNewContFrame = CGRect(x: numberLabel.frame.minX, y: numberLabel.frame.minY + 1/3 * buttonY,
-                                     width: numberLabel.frame.width, height: 1 / 2 * numberLabel.frame.height)
-        addNewContactButton = UIButton(frame: addNewContFrame)
-        addNewContactButton.setTitleColor(.systemBlue, for: .normal)
-        addNewContactButton.isEnabled = false
-        addNewContactButton.titleLabel?.textAlignment = .center
-        addNewContactButton.addTarget(self, action: #selector(addNumber), for: .touchUpInside)
-        view.addSubview(addNewContactButton)
-        
+        backgrountButtonViews["\(buttonNum)"] = buttonLabelsView
     }
     
     private func toggleAddButtonAppearance() {
-        let title = addNewContactButton.isEnabled ? "" : "Add Number"
-        addNewContactButton.setTitle(title, for: .normal)
-        addNewContactButton.isEnabled.toggle()
+        let title = addNumberButton.isEnabled ? "" : "Add Number"
+        addNumberButton.setTitle(title, for: .normal)
+        addNumberButton.isEnabled.toggle()
+    }
+    
+    private func toggleDeleteButtonAppearance() {
+        deleteButton.isHidden.toggle()
+        deleteButton.isEnabled.toggle()
     }
     
     private func changeGrayColorForSec(_ num: String) {
-        UIView.animate(withDuration: 1) { }
+        UIView.animate(withDuration: 1) {
+            self.backgrountButtonViews[num]?.backgroundColor = .darkGray
+            self.backgrountButtonViews[num]?.backgroundColor = self.customGrayColor
+        }
+    }
+    
+    private func changeGrayColorForSec(_ button: UIButton) {
+        UIView.animate(withDuration: 1) {
+            button.backgroundColor = .darkGray
+            button.backgroundColor = self.customGrayColor
+        }
     }
     
     @objc func pressedNumber(_ sender: UIButton) {
         let newChar = sender.titleLabel!.text!
-        changeGrayColorForSec(newChar)
+        
+        if newChar == "*" || newChar == "#" {
+            changeGrayColorForSec(sender)
+        } else {
+            changeGrayColorForSec(newChar)
+        }
+        
         numberLabel.text?.append(newChar)
-        if numberLabel.text!.count == 1 {
+        let num = numberLabel.text!
+        if num.count == 1 {
             toggleAddButtonAppearance()
+            toggleDeleteButtonAppearance()
+        } else if (num.count == 3 || num.count == 7 && num.first! == "0") ||
+                    (num.count == 3 && num.first! != "0" && num.first! != "+") {
+            numberLabel.text?.append(" ")
         }
     }
     
@@ -238,15 +158,26 @@ class KeypadViewController: UIViewController {
             numberLabel.text!.removeLast()
             if numberLabel.text!.isEmpty {
                 toggleAddButtonAppearance()
+                toggleDeleteButtonAppearance()
             }
         }
     }
     
-    @objc func pressedCallButton(_ sender: UIButton) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if segue.identifier == "startConversation" {
+            let conversationViewController = segue.destination as! ConversationViewController
+            conversationViewController.modalPresentationStyle = .overFullScreen
+            conversationViewController.number = numberLabel.text
+        }
     }
     
-    @objc func addNumber(_ sender: UIButton) {
+    @IBAction func pressedCallButton(_ sender: UIButton) {
     }
+    
+    @IBAction  func addNumber(_ sender: UIButton) {
+    }
+    
 }
     
 
