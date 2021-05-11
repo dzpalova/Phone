@@ -1,7 +1,7 @@
 import UIKit
 
 class RecentCallsTableController: UITableViewController {
-    var callStore = CallStore()
+    var callStore = SceneDelegate.callStore
     
     @IBOutlet var segmentedControl: UISegmentedControl!
     @IBOutlet var clearAllButton: UIBarButtonItem!
@@ -39,6 +39,10 @@ class RecentCallsTableController: UITableViewController {
         
         title = "Recents"
         navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {

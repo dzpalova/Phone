@@ -40,13 +40,13 @@ class CallStore {
         return allCalls.filter { $0.isMissed }
     }
     
-    let dateFormatter: DateFormatter = {
+    static let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy.MM.dd HH:mm"
         return dateFormatter
     }()
     
-    let callArchiveURL: URL = {
+    static let callArchiveURL: URL = {
         let documentsDirectories = FileManager.default.urls(for: .documentDirectory,
                                                                 in: .userDomainMask)
         let documentDirectory = documentsDirectories.first!
@@ -56,9 +56,9 @@ class CallStore {
     init() {
         allCalls = [Call]()
         do {
-            let jsonData = try Data(contentsOf: callArchiveURL)
+            let jsonData = try Data(contentsOf: CallStore.callArchiveURL)
             let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .formatted(dateFormatter)
+            decoder.dateDecodingStrategy = .formatted(CallStore.dateFormatter)
             allCalls = try decoder.decode([Call].self, from: jsonData)
         } catch {
             print("Error decoding allItems: \(error)")

@@ -8,7 +8,8 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    static var callStore = CallStore()
+    
     var window: UIWindow?
 
 
