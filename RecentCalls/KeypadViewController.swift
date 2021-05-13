@@ -18,8 +18,9 @@ class KeypadViewController: UIViewController {
         deleteButton.addTarget(self, action: #selector(pressedBack), for: .touchUpInside)
         makeButtonRounded(callButton)
         
-        let keypadFrame = CGRect(x: view.frame.minX + 40 , y: addNumberButton.frame.maxY + 80, width: view.frame.width - 80, height: view.frame.height - addNumberButton.frame.maxY + 10 - 300)
-        keypadButtons = KeypadControl(frame: keypadFrame)
+        let keypadFrame = CGRect(x: view.frame.minX + 40 , y: addNumberButton.frame.maxY + 60,
+                                 width: view.frame.width - 80, height: view.frame.height - addNumberButton.frame.maxY + 10 - 300)
+        keypadButtons = KeypadControl(frame: keypadFrame, style: .basicKeypad)
         keypadButtons.addTarget(self, action: #selector(buttonPressed), for: .valueChanged)
         keypadButtons.isHidden = false
         view.addSubview(keypadButtons)

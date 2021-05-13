@@ -531,7 +531,7 @@
                                     <action selector="endConversation:" destination="0oz-L8-P2Z" eventType="touchUpInside" id="vc1-vp-FtM"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lzz-8B-uc3">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lzz-8B-uc3">
                                 <rect key="frame" x="277" y="672" width="80" height="80"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="Mcp-hY-p3S"/>
@@ -540,11 +540,13 @@
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="80" id="t7h-Fw-Rfy"/>
                                 </constraints>
                                 <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <state key="normal">
-                                    <color key="titleColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal" title="Hide">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <imageReference key="image" image="delete.left.fill" catalog="system" symbolScale="large"/>
                                 </state>
+                                <connections>
+                                    <action selector="changeView" destination="0oz-L8-P2Z" eventType="touchUpInside" id="b7W-k6-mnv"/>
+                                </connections>
                             </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="DGh-g0-VUI"/>
@@ -602,6 +604,7 @@
                     <connections>
                         <outlet property="contact" destination="ufR-06-YXs" id="BuK-2W-kqY"/>
                         <outlet property="endConversationButton" destination="dyk-09-VgU" id="R3u-QS-d9b"/>
+                        <outlet property="hideButton" destination="Lzz-8B-uc3" id="sEk-OQ-QaA"/>
                         <outlet property="numberLabel" destination="b6T-Uj-iCO" id="rVH-F8-p2A"/>
                         <outlet property="timer" destination="1qu-bO-N5f" id="feP-UR-Ku0"/>
                         <outletCollection property="buttons" destination="18a-xM-dMv" collectionClass="NSMutableArray" id="rwo-KN-FSb"/>

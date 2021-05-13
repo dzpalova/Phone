@@ -27,13 +27,22 @@ extension UIColor {
     static let customGrayColor = UIColor(hex: "#E0E0E0")
 }
 
+enum KeypadStyle {
+    case keypadFromContacts
+    case basicKeypad
+}
+
 class KeypadControl: UIControl {
     var pressedButton: String!
     
-    private var numbersSource = KeypadNumbersSource()
+    private var sizeButton: CGFloat!
+    
+    private var numbersSource: KeypadNumbersSource!
     private var collectionViewButtons: UICollectionView!
     
     var longPressZeroFlag = true
+    
+    var style: KeypadStyle!
     
     @objc func longPressedZero() {
         longPressZeroFlag.toggle()
@@ -53,12 +62,19 @@ class KeypadControl: UIControl {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+    }
+    
+    convenience init(frame: CGRect, style: KeypadStyle) {
+        self.init(frame: frame)
+        self.style = style
         setAllButtons()
     }
     
     func setAllButtons() {
+        sizeButton = bounds.width / 3 - 20
+        let buttonsTextColor: UIColor = (style == KeypadStyle.basicKeypad) ? .black : .white
+        numbersSource = KeypadNumbersSource(cellSize: sizeButton, textColor: buttonsTextColor)
         let layout = UICollectionViewFlowLayout()
-        let sizeButton = bounds.width / 3 - 20
         layout.itemSize = CGSize(width: sizeButton, height: sizeButton)
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 10
@@ -67,12 +83,18 @@ class KeypadControl: UIControl {
         collectionViewButtons.backgroundColor = .clear
         collectionViewButtons.register(NumberCollectionViewCell.self, forCellWithReuseIdentifier: "NumberCollectionViewCell")
         
-        numbersSource.numbers.forEach {
-            if $0.titleLabel?.text == "0" {
-                let gestureRecogniser = UILongPressGestureRecognizer(target: self, action: #selector(longPressedZero))
-                $0.addGestureRecognizer(gestureRecogniser)
+        if style == .basicKeypad {
+            numbersSource.numbers.forEach {
+                if $0.titleLabel?.text == "0" {
+                    let gestureRecogniser = UILongPressGestureRecognizer(target: self, action: #selector(longPressedZero))
+                    $0.addGestureRecognizer(gestureRecogniser)
+                }
+                $0.addTarget(self, action: #selector(pressedNumber), for: .touchUpInside)
             }
-            $0.addTarget(self, action: #selector(pressedNumber), for: .touchUpInside)
+        } else {
+            numbersSource.numbers.forEach {
+                $0.addTarget(self, action: #selector(pressedNumber), for: .touchUpInside)
+            }
         }
         
         addSubview(collectionViewButtons)

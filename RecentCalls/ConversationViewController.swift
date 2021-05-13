@@ -10,7 +10,8 @@ class ConversationViewController: UIViewController {
     
     private var keypadButtons: KeypadControl!
     @IBOutlet var numberLabel: UILabel!
-
+    @IBOutlet var hideButton: UIButton!
+    
     private let customGrayColor = UIColor(hex: "#E0E0E0")
     
     private func makeButtonRounded(_ button: UIButton) {
@@ -24,6 +25,8 @@ class ConversationViewController: UIViewController {
         timer.isHidden.toggle()
         contact.isHidden.toggle()
         keypadButtons.isHidden.toggle()
+        numberLabel.isHidden.toggle()
+        hideButton.isHidden.toggle()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,10 +38,13 @@ class ConversationViewController: UIViewController {
         
         
         let keypadFrame = CGRect(x: view.frame.minX + 40 , y: numberLabel.frame.maxY + 100, width: view.frame.width - 80, height: view.frame.width)
-        keypadButtons = KeypadControl(frame: keypadFrame)
+        keypadButtons = KeypadControl(frame: keypadFrame, style: .keypadFromContacts)
         keypadButtons.addTarget(self, action: #selector(buttonPressed), for: .valueChanged)
         keypadButtons.isHidden = true
         view.addSubview(keypadButtons)
+        
+        numberLabel.isHidden = true
+        hideButton.isHidden = true
         makeButtonRounded(endConversationButton)
     }
     

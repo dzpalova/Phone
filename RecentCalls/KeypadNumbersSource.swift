@@ -2,6 +2,8 @@ import UIKit
 
 class KeypadNumbersSource: NSObject, UICollectionViewDataSource {
     var numbers = [UIButton]()
+    var backgroundButtonViews: [String: UIView] = [:]
+    var textColor: UIColor!
     
     private let charsUnderNum: [String:String] = [
         "0": "+"   , "1": "" ,
@@ -11,20 +13,19 @@ class KeypadNumbersSource: NSObject, UICollectionViewDataSource {
         "8": "TUV" , "9": "WXYZ"
     ]
     
-    var backgroundButtonViews: [String: UIView] = [:]
-    
-    override init() {
+    init(cellSize: CGFloat, textColor: UIColor) {
         super.init()
+        self.textColor = textColor
         let labels = ["1","2","3","4","5","6","7","8","9","*","0","#"]
+        
         for label in labels {
-            let button = UIButton()
+            let button = UIButton(frame: CGRect(x: 0, y: 0, width: cellSize, height: cellSize))
             button.setTitle(label, for: .normal)
-            //button.backgroundColor = .clear
-            button.setTitleColor(.black, for: .normal)
-            //button.titleLabel?.isHidden = false
+            button.titleLabel?.isHidden = false
             if charsUnderNum.keys.contains(label) {
                 createbackgroundButtonView(button)
             } else {
+                button.setTitleColor(textColor, for: .normal)
                 makeButtonRounded(button)
                 button.backgroundColor = UIColor.customGrayColor
             }
@@ -57,7 +58,7 @@ class KeypadNumbersSource: NSObject, UICollectionViewDataSource {
         let label = UILabel(frame: rect)
         label.textAlignment = .center
         label.backgroundColor = .clear
-        label.textColor = .black
+        label.textColor = textColor
         label.text = text
         label.font = UIFont(name: "Helvetica" , size: size)
         return label
@@ -84,12 +85,10 @@ class KeypadNumbersSource: NSObject, UICollectionViewDataSource {
         
         buttonLabelsView.addSubview(labelChars)
         buttonLabelsView.addSubview(labelNum)
-        
         button.addSubview(buttonLabelsView)
         buttonLabelsView.isUserInteractionEnabled = false
-        print("\(labelNum.text),\(labelChars.text)")
+
         backgroundButtonViews["\(buttonNum)"] = buttonLabelsView
     }
-    
 }
 
